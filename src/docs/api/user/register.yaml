@@ -1,0 +1,27 @@
+paths:
+  /api/register:
+    post:
+      tags:
+        - User
+      summary: Sign up a new user
+      description: create a new user.
+      requestBody:
+        description: create a new user
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRegister"
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Success"
+        500:
+          description: Internal server error!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"

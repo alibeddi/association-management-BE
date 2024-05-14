@@ -1,0 +1,28 @@
+paths:
+  /api/profile:
+    get:
+      security:
+        - BearerAuth: []
+      tags:
+        - User
+      summary: get profile information
+      description: get profile information.
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Success"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: Internal server error!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"

@@ -1,0 +1,50 @@
+paths:
+  /api/admin/users-todos/{id}:
+    get:
+      security:
+        - BearerAuth: []
+      tags:
+        - Admin/Todo
+      summary: Find Todo By User Id
+      description: Returns Todos By User Id.
+      parameters:
+        - name: id
+          in: path
+          description: ID of User
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: name of todo contains name to return
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: page of pagination
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          description: pageSize of pagination
+          schema:
+            type: number
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Success"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"

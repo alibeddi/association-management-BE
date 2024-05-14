@@ -1,0 +1,29 @@
+paths:
+  /api/admin/users:
+    post:
+      security:
+        - BearerAuth: []
+      tags:
+        - Admin/User
+      summary: Add a new Admin
+      description: Add a new Admin
+      requestBody:
+        description: Create a new Admin
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

@@ -1,0 +1,22 @@
+paths:
+  /api/logout:
+    get:
+      security:
+        - BearerAuth: []
+      tags:
+        - User
+      summary: logout
+      description: clear cookie.
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Success"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"

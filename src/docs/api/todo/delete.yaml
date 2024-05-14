@@ -1,0 +1,35 @@
+paths:
+  /api/todos/{id}:
+    delete:
+      security:
+        - BearerAuth: []
+      tags:
+        - Todo
+      summary: Delete Todo
+      description: Delete Todo By Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Todo to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Success"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"

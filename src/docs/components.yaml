@@ -1,0 +1,123 @@
+components:
+  schemas:
+    UserLogin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: The email of the user
+        password:
+          type: string
+          description: The password of the user
+
+    UserRegister:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          description: The name of the user
+        email:
+          type: string
+          description: The email of the user
+        password:
+          type: string
+          description: The password of the user
+
+    UpdateUser:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the user
+        email:
+          type: string
+          description: The email of the user
+
+    UpdateUserPassword:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+          description: The oldPassword of the user
+        password:
+          type: string
+          description: The new password of the user
+        confirmPassword:
+          type: string
+          description: The confirmPassword of the user
+
+    UserPasswordForgot:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          description: The email of the user
+
+    UserPasswordReset:
+      type: object
+      required:
+        - password
+        - confirmPassword
+        - token
+      properties:
+        password:
+          type: string
+          description: The password of the user
+        confirmPassword:
+          type: string
+          description: The confirmPassword of the user
+        token:
+          type: string
+          description: The token of the user
+
+    Todo:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The name of the todo
+        description:
+          type: string
+          description: The description of the todo
+        isConpleted:
+          type: boolean
+          default: false
+          description: True if todo is completed
+
+    Success:
+      type: object
+      properties:
+        success:
+          type: boolean
+          default: true
+        message:
+          type: string
+        data:
+          type: object
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          default: false
+        statusCode:
+          type: numner
+        message:
+          type: string
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

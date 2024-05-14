@@ -1,0 +1,42 @@
+paths:
+  /api/admin/users/{id}:
+    put:
+      security:
+        - BearerAuth: []
+      tags:
+        - Admin/User
+      summary: Update Admin
+      description: Update an existing Admin By Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Admin to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Admin body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

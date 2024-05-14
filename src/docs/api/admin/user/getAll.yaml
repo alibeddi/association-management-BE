@@ -1,0 +1,38 @@
+paths:
+  /api/admin/users:
+    get:
+      security:
+        - BearerAuth: []
+      tags:
+        - Admin/User
+      summary: Get All Admins
+      description: Returns all Admins.
+      parameters:
+        - name: name
+          in: query
+          description: name of admin contains name to return
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: page of pagination
+          schema:
+            type: number
+        - name: pageSize
+          in: query
+          description: pageSize of pagination
+          schema:
+            type: number
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

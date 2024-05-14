@@ -1,0 +1,12 @@
+tags:
+  - name: User
+    description: Everything about Users
+
+  - name: Todo
+    description: Everything about Todos
+
+  - name: Admin/User
+    description: Everything about Admin/User
+
+  - name: Admin/Todo
+    description: Everything about Admin/Todo

@@ -1,0 +1,42 @@
+paths:
+  /api/admin/todos/{id}:
+    put:
+      security:
+        - BearerAuth: []
+      tags:
+        - Admin/Todo
+      summary: Update Todo
+      description: Update an existing Todo By Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Todo to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Todo body
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Todo"
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Success"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"

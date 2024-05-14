@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  db:
+    image: mongo
+    container_name: db
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - my-app
+    volumes:
+      - db-data:/data/db
+      
+  api:
+    build: .
+    container_name: api
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - MONGO_URI=mongodb://db:27017/Starter
+    links:
+      - db
+    networks:
+      - my-app
+      
+networks:
+  my-app:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+  

@@ -1,0 +1,29 @@
+paths:
+  /api/todos:
+    post:
+      security:
+        - BearerAuth: []
+      tags:
+        - Todo
+      summary: Add a new Todo
+      description: Add a new Todo
+      requestBody:
+        description: Create a new Todo
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Todo"
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Success"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
