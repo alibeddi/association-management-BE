@@ -1,43 +1,45 @@
-import express, { Express } from 'express';
-import path from 'path';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import morgan from 'morgan';
-import helmet from 'helmet';
-import hpp from 'hpp';
-import xss from 'xss-clean';
-import errors from './middlewares/errors';
-import cookieParser from 'cookie-parser';
-import notFound from './middlewares/notFound';
-import mongoSanitize from 'express-mongo-sanitize';
+import express, { Request, Response, NextFunction } from 'express';
 import swaggerUI from 'swagger-ui-express';
-import swaggerSpec from './docs/config';
-import routes from './routes';
-import bodyParser from 'body-parser';
-dotenv.config();
+import Logger from './core/Logger';
+import cors from 'cors';
+import { corsUrl, environment } from './config/envVar';
+import './database'; // initialize database
+import { NotFoundError, ApiError, InternalError } from './core/ApiError';
+import routesV1 from './routes/v1';
+import { specs } from './docs';
 
-const app: Express = express();
+process.on('uncaughtException', (e) => {
+  Logger.error(e);
+});
 
-const corsOptions = {
-  optionsSuccessStatus: 200,
-  credentials: true,
-};
-app.use(bodyParser.json());
-app.use(xss());
-app.use(hpp());
-app.use(helmet());
-app.use(morgan('dev'));
+const app = express();
+
 app.use(express.json());
-app.use(cookieParser());
-app.use(mongoSanitize());
-app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(cors({ origin: corsUrl, optionsSuccessStatus: 200, credentials: true }));
 
-app.use('/api', routes);
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 
-app.use(notFound);
-app.use(errors);
+// Routes
+app.use('/api/v1', routesV1);
+app.use(express.static('media'));
+app.use('/public', express.static('public'));
+
+// catch 404 and forward to error handler
+app.use((req, res, next) => next(new NotFoundError()));
+
+// Middleware Error Handler
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof ApiError) {
+    ApiError.handle(err, res);
+  } else {
+    if (environment === 'development') {
+      Logger.error(err);
+      return res.status(500).send({ status: 'fail', message: err.message });
+    }
+    ApiError.handle(new InternalError(), res);
+  }
+});
 
 export default app;
