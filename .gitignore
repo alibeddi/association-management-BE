@@ -1,5 +1,30 @@
-node_modules
-dist
+# Add any directories, files, or patterns you don't want to be tracked by version control
+.idea
+data
+keys/*.pem
+# ignore vs code project config files
+.vs
+
+# ignore logs
 logs
-.env
-.md
+*.log
+
+# ignore 3rd party lib
+node_modules
+
+# ignore key
+*.pem
+
+# Ignore built files
+build
+
+# ignore test converage
+coverage
+
+# Environment varibles
+*.env
+.env.
+**/public/**
+**/mongo-data/**
+mongo-data
+~/

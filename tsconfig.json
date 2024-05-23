@@ -1,20 +1,31 @@
 {
   "compilerOptions": {
-    "target": "es2019",
-    "lib": ["es6"],
-    "module": "commonjs",
-    "rootDir": "./src",
-    "resolveJsonModule": true,
-    "allowJs": false,
-    "outDir": "./dist",
+    "module": "CommonJS",
+    // Import non-ES modules as default imports.
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    // "useUnknownInCatchVariables": false,
+    // Target latest version of ECMAScript.
+    "target": "ES2019",
+    // Process & infer types from .js files.
+    "allowJs": false,
+    // Enable strictNullChecks & noImplicitAny.
+    "strictNullChecks": true,
     "noImplicitAny": true,
-    "skipLibCheck": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "moduleResolution": "node"
+    "strict": true,
+    "strictFunctionTypes": false,
+    "noImplicitThis": false,
+    // Search under node_modules for non-relative imports.
+    "moduleResolution": "node",
+    // Import .json files
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "outDir": "build",
+    "baseUrl": ".",
+    "typeRoots": ["./custom_typings", "./node_modules/@types"],
+    "paths": {
+      "*": ["node_modules/*", "src/types/*"]
+    }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "logs"]
+  "include": ["src/**/*", "middlewares"],
+  "exclude": ["node_modules"]
 }
