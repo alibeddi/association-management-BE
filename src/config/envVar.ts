@@ -4,7 +4,7 @@ export const baseUrl = process.env.BASE_URL || "";
 export const apiPrefix = process.env.API_PREFIX || "";
 
 export const db = {
-  uri: process.env.MONGO_URI || "",
+  uri: process.env.DB_URI || "",
   name: process.env.DB_NAME || "",
   host: process.env.DB_HOST || "",
   port: process.env.DB_PORT || "",
