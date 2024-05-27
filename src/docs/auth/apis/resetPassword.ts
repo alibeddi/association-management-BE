@@ -9,7 +9,7 @@
  *            application/json:
  *                schema:
  *                   $ref: '#/components/schemas/ResetPassword'
- *     tags: [Authentication]
+ *     tags: [Authentication 🔐]
  *     responses:
  *       200:
  *         description: OK

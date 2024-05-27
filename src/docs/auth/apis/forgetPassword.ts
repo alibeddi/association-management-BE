@@ -9,7 +9,7 @@
  *            application/json:
  *                schema:
  *                   $ref: '#/components/schemas/ForgetPassword'
- *     tags: [Authentication]
+ *     tags: [Authentication 🔐]
  *     responses:
  *       200:
  *         description: OK

@@ -1,6 +1,6 @@
-import Admin, { AdminModel } from "../../model/Admin";
 import Role, { RoleModel } from "../../model/Role";
 import { InternalError } from "../../../core/ApiError";
+import Admin, { AdminModel } from "../../../database/model/Admin";
 
 const create = async (
   user: Admin,

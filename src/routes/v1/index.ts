@@ -6,6 +6,7 @@ import media from './media/media';
 import email from './email/email';
 import userType from './userType/userType';
 import country from './country/country';
+import post from './post/post';
 
 const router = express.Router();
 
@@ -19,5 +20,6 @@ router.use('/users', users);
 router.use('/email', email);
 router.use('/usertypes', userType);
 router.use('/countries', country);
+router.use('/posts', post);
 
 export default router;

@@ -1,9 +1,9 @@
-import path from 'path';
-import { readFile } from 'fs';
-import { promisify } from 'util';
-import { sign, verify } from 'jsonwebtoken';
-import { InternalError, BadTokenError, TokenExpiredError } from './ApiError';
-import Logger from './Logger';
+import path from "path";
+import { readFile } from "fs";
+import { promisify } from "util";
+import { sign, verify } from "jsonwebtoken";
+import { InternalError, BadTokenError, TokenExpiredError } from "./ApiError";
+import Logger from "./Logger";
 
 /*
  * issuer 		— Software organization who issues the token.
@@ -15,18 +15,24 @@ import Logger from './Logger';
 
 export default class JWT {
   private static readPublicKey(): Promise<string> {
-    return promisify(readFile)(path.join(__dirname, '../../keys/public.pem'), 'utf8');
+    return promisify(readFile)(
+      path.join(__dirname, "../../keys/public.pem"),
+      "utf8"
+    );
   }
 
   private static readPrivateKey(): Promise<string> {
-    return promisify(readFile)(path.join(__dirname, '../../keys/private.pem'), 'utf8');
+    return promisify(readFile)(
+      path.join(__dirname, "../../keys/private.pem"),
+      "utf8"
+    );
   }
 
   public static async encode(payload: JwtPayload): Promise<string> {
     const cert = await this.readPrivateKey();
-    if (!cert) throw new InternalError('Token generation failure');
+    if (!cert) throw new InternalError("Token generation failure");
     // @ts-ignore
-    return promisify(sign)({ ...payload }, cert, { algorithm: 'RS256' });
+    return promisify(sign)({ ...payload }, cert, { algorithm: "RS256" });
   }
 
   /**
@@ -39,7 +45,7 @@ export default class JWT {
       return (await promisify(verify)(token, cert)) as JwtPayload;
     } catch (e: any) {
       Logger.debug(e);
-      if (e && e.name === 'TokenExpiredError') throw new TokenExpiredError();
+      if (e && e.name === "TokenExpiredError") throw new TokenExpiredError();
       // throws error if the token has not been encrypted by the private key
       throw new BadTokenError();
     }
@@ -52,7 +58,9 @@ export default class JWT {
     const cert = await this.readPublicKey();
     try {
       // @ts-ignore
-      return (await promisify(verify)(token, cert, { ignoreExpiration: true })) as JwtPayload;
+      return (await promisify(verify)(token, cert, {
+        ignoreExpiration: true,
+      })) as JwtPayload;
     } catch (e) {
       Logger.debug(e);
       throw new BadTokenError();
@@ -67,13 +75,22 @@ export class JwtPayload {
   iat: number;
   exp: number;
   prm: string;
+  isAdmin: boolean = false;
 
-  constructor(issuer: string, audience: string, subject: string, param: string, validity: number) {
+  constructor(
+    issuer: string,
+    audience: string,
+    subject: string,
+    param: string,
+    validity: number,
+    isAdmin: boolean
+  ) {
     this.iss = issuer;
     this.aud = audience;
     this.sub = subject;
     this.iat = Math.floor(Date.now() / 1000);
     this.exp = this.iat + validity * 24 * 60 * 60;
     this.prm = param;
+    this.isAdmin = isAdmin;
   }
 }

@@ -29,7 +29,7 @@ export const sendEmail = async (options: EmailOptions) => {
   transporter = nodemailer.createTransport({
     host: email.smtpHost,
     port: Number(email.smtpPort),
-    secure: false,
+    secure: true,
     auth: {
       user: email.smtpUser,
       pass: email.smtpPass,
