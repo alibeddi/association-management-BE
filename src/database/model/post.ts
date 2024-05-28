@@ -1,20 +1,20 @@
-import { Schema, model, Document } from 'mongoose';
-import User from './User';
-import { mongoosePagination, Pagination } from 'mongoose-paginate-ts';
-import { preFindHook } from '../../helpers/databaseHooks';
+import { Schema, model, Document } from "mongoose";
+import User from "./User";
+import { mongoosePagination, Pagination } from "mongoose-paginate-ts";
+import { preFindHook } from "../../helpers/databaseHooks";
 
-export const DOCUMENT_NAME = 'Post';
-export const COLLECTION_NAME = 'posts';
+export const DOCUMENT_NAME = "Post";
+export const COLLECTION_NAME = "posts";
 
 export enum PostType {
-  NEWS = 'NEWS',
-  EVENT = 'EVENT',
-  ARTICLE = 'ARTICLE',
+  NEWS = "NEWS",
+  EVENT = "EVENT",
+  ARTICLE = "ARTICLE",
 }
 export enum PostStatus {
-  ACCEPTED = 'ACCEPTED',
-  PENDING = 'PENDING',
-  REJECTED = 'REJECTED',
+  ACCEPTED = "ACCEPTED",
+  PENDING = "PENDING",
+  REJECTED = "REJECTED",
 }
 
 export default interface IPost extends Document {
@@ -26,14 +26,14 @@ export default interface IPost extends Document {
   status: PostStatus;
   createdAt?: Date;
   updatedAt?: Date;
-  deletedAt?: Date;
+  deletedAt?: Date | null;
 }
 
 const schema = new Schema<IPost>(
   {
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
     title: {
       type: Schema.Types.String,
@@ -66,7 +66,7 @@ const schema = new Schema<IPost>(
   }
 );
 schema.plugin(mongoosePagination);
-preFindHook(schema, ['createdBy']);
+preFindHook(schema, ["createdBy"]);
 
 export const PostModel = model<IPost, Pagination<IPost>>(
   DOCUMENT_NAME,
